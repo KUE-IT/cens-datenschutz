@@ -3,7 +3,7 @@
 **App:** Cens
 **Verantwortliche Stelle:** Kantonsschule Uetikon am See (KUE), Bergstrasse 113, 8707 Uetikon am See
 **Entwickler:** Nikola Jovanov, kue.it@kuezh.ch
-**Stand:** 18. Mai 2026
+**Stand:** 19. Juni 2026
 
 Cens ist eine Inventar- und Ausleihverwaltungs-App für Schulen. Aktuell wird sie an der Kantonsschule Uetikon am See (KUE) eingesetzt und über Apple School Manager als Custom App auf KUE-iPads verteilt; eine Ausweitung auf weitere Schweizer Schulen ist perspektivisch vorgesehen. Diese Datenschutzerklärung beschreibt den Einsatz an der KUE und erläutert transparent, welche Daten Cens verarbeitet, wo sie gespeichert werden und wer Zugriff darauf hat.
 
@@ -35,7 +35,7 @@ Die Erfassung des Personentyps erfolgt automatisch aus der E-Mail-Domain (`@stud
 
 ### 2.3 Benutzerkonten innerhalb der App
 Personen, die die App bedienen (z. B. Lehrpersonen, Hausdienst, Administration), werden in der App als Benutzerkonten geführt. Erfasst werden:
-- Name, E-Mail (optional), Rolle (Admin, Adjunkt, Hauswart, Lehrperson, …)
+- Name, E-Mail (optional), Rolle (Admin, Adjunkt, Hauswart, Hausmeister, Lehrperson, …)
 - Sicherheitscode (nur für Admin-Konten): wird **nicht** im Klartext gespeichert, sondern als kryptographischer Hash (SHA-256 mit PBKDF2, 600 000 Iterationen, individuellem Salt) im Apple-Keychain abgelegt.
 
 ### 2.4 Aktivitätsprotokoll
@@ -43,6 +43,17 @@ Die App führt ein internes Protokoll über durchgeführte Aktionen (z. B. „Au
 
 ### 2.5 App-Einstellungen
 Konfigurationsdaten wie Schul-Standort (für die Schuljahrsberechnung), bevorzugte Fachschaft (pro iPad), Mailserver-Einstellungen (Host, Port, Benutzername). **Das Mailserver-Passwort wird ausschliesslich im Apple-Keychain gespeichert und nie ins Aktivitätsprotokoll oder in die Cloud synchronisiert.**
+
+### 2.6 Schlüssel-, Badge- und PIN-Zuordnung
+Cens verwaltet die Ausgabe von mechanischen Schlüsseln, Zutritts-Badges und Tür-PIN-Codes an Personen oder Spezial-Halter (z. B. Tresor, Schlüsselkasten). Erfasst werden:
+- **Pflichtfeld:** Name des Halters (bei interner Ausgabe) bzw. Bezeichnung des Spezial-Halters
+- **Optional:** E-Mail-Adresse (ausschliesslich für Rückgabe-Erinnerungen), Asset-Typ (Schlüssel/Badge/PIN), Schließgruppe, Ausgabe-/Rückgabedatum, Status, Lagerort
+- **Optional bei der Übergabe:** Foto, digitale Unterschrift, Bestätigung der Haftungs-/Verlustbelehrung
+- **PIN-/Badge-Codes** werden **niemals im Klartext** gespeichert, sondern reversibel verschlüsselt (AES-GCM, Schlüssel im Apple-Keychain). Sie werden nicht in Backups, CSV-Exporte oder E-Mails übernommen und sind nur für berechtigte Rollen einsehbar; jede Klartext-Anzeige wird im Aktivitätsprotokoll vermerkt.
+
+**Zweckbindung:** Diese Daten dienen ausschliesslich der Zutrittssicherheit und dem Inventar-Nachweis. Sie werden **nicht** zur Anwesenheits-, Verhaltens- oder Leistungskontrolle verwendet.
+
+**Zugriff:** Das Schlüsselinventar ist nur für die Rollen Hauswart, Hausmeister und Admin sichtbar und bearbeitbar.
 
 ---
 
@@ -79,7 +90,7 @@ Das Dashboard kann lokales Wetter anzeigen. Dazu sendet die App die ungefähren 
 **Sie können das Wetter-Feature jederzeit deaktivieren**, indem Sie der App in den iPad-Einstellungen den Standortzugriff entziehen.
 
 ### 4.3 E-Mail-Versand (optional, durch die KUE konfigurierbar)
-Falls in den Einstellungen ein Mailserver hinterlegt ist, versendet die App Rückgabe-Erinnerungen und Mahnungen an die in den Ausleihdaten erfassten E-Mail-Adressen. Die E-Mails enthalten: Gerätebezeichnung, Inventarnummer, Rückgabedatum, Name der ausleihenden Person. Der Versand erfolgt **direkt vom iPad an den von der KUE festgelegten SMTP-Server** über eine verschlüsselte Verbindung (STARTTLS). Es wird kein externer E-Mail-Dienstleister eingebunden.
+Falls in den Einstellungen ein Mailserver hinterlegt ist, versendet die App Rückgabe-Erinnerungen und Mahnungen an die in den Ausleih- bzw. Schlüsseldaten erfassten E-Mail-Adressen. Die E-Mails enthalten: Geräte- bzw. Schlüsselbezeichnung, Inventarnummer bzw. Schließgruppe, Rückgabedatum, Name der betroffenen Person. **Tür-/PIN-Codes werden nie per E-Mail versendet.** Der Versand erfolgt **direkt vom iPad an den von der KUE festgelegten SMTP-Server** über eine verschlüsselte Verbindung (STARTTLS). Es wird kein externer E-Mail-Dienstleister eingebunden.
 
 ### 4.4 Keine weiteren Dienste
 Cens nutzt **keine** Analytics-, Crash-Reporting-, Werbe- oder Tracking-SDKs. Es gibt **keine** Verbindungen zu Facebook, Google, Microsoft, Firebase, Segment oder ähnlichen Diensten.
@@ -114,6 +125,7 @@ Die App fragt **nicht** nach: Mikrofon, Kontakte, Kalender, Gesundheitsdaten, Fo
 
 - **Inventardaten** werden so lange gespeichert, wie das Gerät zum Bestand der KUE gehört.
 - **Ausleihdaten** bleiben aus organisatorischen und Nachvollziehbarkeitsgründen bestehen, mindestens für die Dauer der Ausleihe und das laufende Schuljahr. Ältere Datensätze können vom Administrator manuell archiviert oder gelöscht werden.
+- **Schlüssel-, Badge- und PIN-Daten** werden gespeichert, solange das Asset zum Bestand der KUE gehört. Die **Personenzuordnung** (Name, E-Mail, Unterschrift, Foto) wird nach Rücknahme bzw. Austritt der Person und Ablauf einer festzulegenden Frist (in Abstimmung mit dem kantonalen Datenschutzbeauftragten) **anonymisiert**; die Vorgangshistorie (Datum, Asset, Vorgangstyp) bleibt zu Nachweiszwecken **ohne Personenbezug** erhalten. PIN-/Badge-Codes werden bei Deaktivierung bzw. Austritt rotiert oder entfernt.
 - **Aktivitätsprotokolle** werden ohne festgelegte Frist aufbewahrt; sie sind Teil der Datenbank.
 - **Backups** werden rollierend gespeichert (jeweils die letzten 5 Tagesbackups).
 
@@ -121,7 +133,7 @@ Die App fragt **nicht** nach: Mikrofon, Kontakte, Kalender, Gesundheitsdaten, Fo
 
 ## 8. Ihre Rechte
 
-Nach dem Schweizer Datenschutzgesetz (DSG) und, sofern anwendbar, der EU-DSGVO haben Sie das Recht:
+Nach dem revidierten Schweizer Datenschutzgesetz (revDSG), dem Informations- und Datenschutzgesetz des Kantons Zürich (IDG ZH — die KUE ist als kantonale Schule ein öffentliches Organ) und, sofern anwendbar, der EU-DSGVO haben Sie das Recht:
 - Auskunft über die zu Ihrer Person gespeicherten Daten zu erhalten
 - Berichtigung unrichtiger Daten zu verlangen
 - Löschung Ihrer Daten zu beantragen, sofern keine gesetzlichen Aufbewahrungspflichten dem entgegenstehen
@@ -139,6 +151,7 @@ Wenden Sie sich für die Ausübung dieser Rechte an die KUE-Verwaltung oder dire
 - Mailserver-Verbindungen erfolgen via STARTTLS.
 - Administrative Funktionen sind durch einen separaten Sicherheitscode geschützt; nach 5 falschen Eingaben wird der Code-Dialog automatisch geschlossen.
 - Passwörter (Mailserver, Admin-Code) sind ausschliesslich im Apple-Keychain hinterlegt und werden nicht in die Cloud oder ins Protokoll geschrieben.
+- PIN- und Badge-Codes werden reversibel verschlüsselt (AES-GCM) gespeichert; der Verschlüsselungsschlüssel liegt im Apple-Keychain und wird nie in Backups, Exporte oder die Cloud-Klartextdaten geschrieben. Jede Klartext-Anzeige eines Codes wird im Aktivitätsprotokoll vermerkt.
 
 ---
 
