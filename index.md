@@ -3,7 +3,7 @@
 **App:** Cens
 **Verantwortliche Stelle:** Kantonsschule Uetikon am See (KUE), Bergstrasse 113, 8707 Uetikon am See
 **Entwickler:** Nikola Jovanov, kue.it@kuezh.ch
-**Stand:** 19. Juni 2026
+**Stand:** 2. Juli 2026
 
 Cens ist eine Inventar- und Ausleihverwaltungs-App für Schulen. Aktuell wird sie an der Kantonsschule Uetikon am See (KUE) eingesetzt und über Apple School Manager als Custom App auf KUE-iPads verteilt; eine Ausweitung auf weitere Schweizer Schulen ist perspektivisch vorgesehen. Diese Datenschutzerklärung beschreibt den Einsatz an der KUE und erläutert transparent, welche Daten Cens verarbeitet, wo sie gespeichert werden und wer Zugriff darauf hat.
 
@@ -49,7 +49,7 @@ Cens verwaltet die Ausgabe von mechanischen Schlüsseln, Zutritts-Badges und Tü
 - **Pflichtfeld:** Name des Halters (bei interner Ausgabe) bzw. Bezeichnung des Spezial-Halters
 - **Optional:** E-Mail-Adresse (ausschliesslich für Rückgabe-Erinnerungen), Asset-Typ (Schlüssel/Badge/PIN), Schließgruppe, Ausgabe-/Rückgabedatum, Status, Lagerort
 - **Optional bei der Übergabe:** Foto, digitale Unterschrift, Bestätigung der Haftungs-/Verlustbelehrung
-- **PIN-/Badge-Codes** werden **niemals im Klartext** gespeichert, sondern reversibel verschlüsselt (AES-GCM, Schlüssel im Apple-Keychain). Sie werden nicht in Backups, CSV-Exporte oder E-Mails übernommen und sind nur für berechtigte Rollen einsehbar; jede Klartext-Anzeige wird im Aktivitätsprotokoll vermerkt.
+- **PIN-/Badge-Codes** werden **niemals im Klartext** gespeichert, sondern reversibel verschlüsselt (AES-GCM, Schlüssel im Apple-Keychain, per iCloud-Schlüsselbund synchronisiert). In Backups liegen sie ausschliesslich in **verschlüsselter Form** (der Entschlüsselungs-Schlüssel ist nie Teil eines Backups); in CSV-Exporte und E-Mails werden sie **nicht** übernommen und sind nur für berechtigte Rollen einsehbar; jede Klartext-Anzeige wird im Aktivitätsprotokoll vermerkt.
 
 **Zweckbindung:** Diese Daten dienen ausschliesslich der Zutrittssicherheit und dem Inventar-Nachweis. Sie werden **nicht** zur Anwesenheits-, Verhaltens- oder Leistungskontrolle verwendet.
 
@@ -125,7 +125,7 @@ Die App fragt **nicht** nach: Mikrofon, Kontakte, Kalender, Gesundheitsdaten, Fo
 
 - **Inventardaten** werden so lange gespeichert, wie das Gerät zum Bestand der KUE gehört.
 - **Ausleihdaten** bleiben aus organisatorischen und Nachvollziehbarkeitsgründen bestehen, mindestens für die Dauer der Ausleihe und das laufende Schuljahr. Ältere Datensätze können vom Administrator manuell archiviert oder gelöscht werden.
-- **Schlüssel-, Badge- und PIN-Daten** werden gespeichert, solange das Asset zum Bestand der KUE gehört. Die **Personenzuordnung** (Name, E-Mail, Unterschrift, Foto) wird nach Rücknahme bzw. Austritt der Person und Ablauf einer festzulegenden Frist (in Abstimmung mit dem kantonalen Datenschutzbeauftragten) **anonymisiert**; die Vorgangshistorie (Datum, Asset, Vorgangstyp) bleibt zu Nachweiszwecken **ohne Personenbezug** erhalten. PIN-/Badge-Codes werden bei Deaktivierung bzw. Austritt rotiert oder entfernt.
+- **Schlüssel-, Badge- und PIN-Daten** werden gespeichert, solange das Asset zum Bestand der KUE gehört. Die **Personenzuordnung** (Name, E-Mail, Unterschrift, Foto) wird nach Rücknahme bzw. Austritt der Person und Ablauf einer festzulegenden Frist (in Abstimmung mit dem kantonalen Datenschutzbeauftragten) **anonymisiert**; die Vorgangshistorie (Datum, Asset, Vorgangstyp) bleibt zu Nachweiszwecken **ohne Personenbezug** erhalten. Die Anonymisierung wirkt auf den aktuellen Datenbestand; in **zuvor erstellten Backups** kann der Personenbezug bis zu deren rollierender Aussonderung noch enthalten sein (siehe unten). PIN-/Badge-Codes werden bei Deaktivierung bzw. Austritt **manuell im Offboarding-Prozess** rotiert oder entfernt (geteilte Codes: Rotation).
 - **Aktivitätsprotokolle** werden ohne festgelegte Frist aufbewahrt; sie sind Teil der Datenbank.
 - **Backups** werden rollierend gespeichert (jeweils die letzten 5 Tagesbackups).
 
