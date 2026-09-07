@@ -1,4 +1,4 @@
-Datenschutzerklärung — Cens
+# Datenschutzerklärung — Cens
 
 **App:** Cens
 **Verantwortliche Stelle:** Kantonsschule Uetikon am See (KUE), Bergstrasse 113, 8707 Uetikon am See
